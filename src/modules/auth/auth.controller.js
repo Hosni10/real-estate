@@ -1,6 +1,9 @@
 import adminModel from "../../../models/admin.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { config } from "dotenv";
+
+config();
 
 const signin = async (req, res, next) => {
   try {
@@ -12,7 +15,7 @@ const signin = async (req, res, next) => {
       if (match) {
         let token = jwt.sign(
           { id: user._id, roleId: user.roleId },
-          "MyNameIsOsha"
+          process.env.SECRET_Key
         );
         res.json({ message: "Success", user, token });
       } else {
